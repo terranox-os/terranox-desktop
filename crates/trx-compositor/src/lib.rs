@@ -32,5 +32,6 @@ pub use components::{
     InteractionState, Opacity, Position, Size, TextContent, Visible, Window, WindowTitle, ZIndex,
 };
 pub use platform::{MockPlatform, PlatformBackend};
+pub use render::{BufferId, DrmBackend, GpuBackend, RenderBackend, RenderError, SoftwareBackend};
 pub use resources::{DamageRegion, Framebuffer, FrameTime, InputEvents};
 pub use systems::build_compositor_systems;

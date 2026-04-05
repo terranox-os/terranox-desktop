@@ -1,8 +1,19 @@
-//! Software rasterizer for the compositor.
+//! Rendering subsystem for the compositor.
 //!
-//! Operates on `Framebuffer` using ARGB8888 pixel format.
-//! Phase 1 provides rectangle fill, border drawing, and
-//! placeholder text rendering.
+//! Provides the [`RenderBackend`](backend::RenderBackend) trait for GPU/DRM
+//! abstraction, concrete backend implementations, and backend-agnostic
+//! pixel-level drawing utilities that operate on `&mut [u32]` ARGB8888
+//! slices or `Framebuffer` resources.
+
+pub mod backend;
+pub mod drm;
+pub mod gpu;
+pub mod software;
+
+pub use backend::{BufferId, RenderBackend, RenderError};
+pub use drm::DrmBackend;
+pub use gpu::GpuBackend;
+pub use software::SoftwareBackend;
 
 use crate::components::Color;
 use crate::resources::Framebuffer;
