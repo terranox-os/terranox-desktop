@@ -83,19 +83,30 @@ impl Archetypes {
     }
 
     /// Get or create an archetype for the given component set.
+    ///
+    /// `component_ids` and `sizes` must be parallel arrays (same length,
+    /// sizes[i] corresponds to component_ids[i]). Both are sorted by
+    /// component ID before creating the archetype, so callers do not
+    /// need to pre-sort.
     pub fn get_or_create(
         &mut self,
-        mut component_ids: Vec<ComponentId>,
+        component_ids: Vec<ComponentId>,
         sizes: &[(usize, usize)],
     ) -> ArchetypeId {
-        component_ids.sort();
-        if let Some(&id) = self.index.get(&component_ids) {
+        // Sort component_ids AND reorder sizes to match.
+        // Create index permutation, sort by component ID, then apply.
+        let mut indices: Vec<usize> = (0..component_ids.len()).collect();
+        indices.sort_by_key(|&i| component_ids[i]);
+        let sorted_ids: Vec<ComponentId> = indices.iter().map(|&i| component_ids[i]).collect();
+        let sorted_sizes: Vec<(usize, usize)> = indices.iter().map(|&i| sizes[i]).collect();
+
+        if let Some(&id) = self.index.get(&sorted_ids) {
             return id;
         }
         let id = ArchetypeId(self.archetypes.len() as u32);
         self.archetypes
-            .push(Archetype::new(id, component_ids.clone(), sizes));
-        self.index.insert(component_ids, id);
+            .push(Archetype::new(id, sorted_ids.clone(), &sorted_sizes));
+        self.index.insert(sorted_ids, id);
         id
     }
 
@@ -169,6 +180,28 @@ mod tests {
         assert_eq!(arch.column_index(ComponentId(2)), Some(0));
         assert_eq!(arch.column_index(ComponentId(5)), Some(1));
         assert_eq!(arch.column_index(ComponentId(99)), None);
+    }
+
+    #[test]
+    fn get_or_create_reorders_sizes_with_component_ids() {
+        // Regression test: sizes must be reordered alongside component_ids
+        // when get_or_create sorts. Previously, sizes stayed in original
+        // order causing column size mismatches (SIGSEGV on access).
+        let mut archetypes = Archetypes::new();
+        // Component 10 has size 16, Component 3 has size 4
+        // Passed in descending ID order (10, 3)
+        let ids = alloc::vec![ComponentId(10), ComponentId(3)];
+        let sizes = &[(16, 8), (4, 4)]; // sizes[0]=16 for ID 10, sizes[1]=4 for ID 3
+        let arch_id = archetypes.get_or_create(ids, sizes);
+        let arch = archetypes.get(arch_id).unwrap();
+
+        // After sorting: [ComponentId(3), ComponentId(10)]
+        // Column 0 should be ComponentId(3) with size 4
+        // Column 1 should be ComponentId(10) with size 16
+        assert_eq!(arch.component_ids[0], ComponentId(3));
+        assert_eq!(arch.component_ids[1], ComponentId(10));
+        assert_eq!(arch.columns[0].item_size(), 4);
+        assert_eq!(arch.columns[1].item_size(), 16);
     }
 
     #[test]

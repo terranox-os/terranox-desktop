@@ -477,4 +477,43 @@ mod tests {
         let col_idx = arch.column_index(comp_id).unwrap();
         assert_eq!(arch.columns[col_idx].get_change_tick(row), 2);
     }
+
+    #[test]
+    fn insert_components_in_reverse_id_order() {
+        // Regression test: inserting components in non-ascending ComponentId
+        // order previously caused column size mismatches because
+        // get_or_create sorted component_ids but not sizes.
+        let mut world = World::new();
+
+        // Register in order: Position gets ID 0, then Velocity gets ID 1.
+        // But a different component registered first would shift IDs.
+        // Use a third type to ensure non-trivial ordering.
+        #[derive(Debug, PartialEq, Clone, Copy)]
+        struct LargeComponent {
+            data: [u8; 64],
+        }
+        impl Component for LargeComponent {}
+
+        world.register_component::<LargeComponent>(); // ID 0 (64 bytes)
+        world.register_component::<Position>();         // ID 1 (8 bytes)
+        world.register_component::<Velocity>();         // ID 2 (8 bytes)
+
+        let e = world.spawn_empty();
+
+        // Insert in REVERSE ID order: Velocity (ID 2), Position (ID 1), LargeComponent (ID 0)
+        world.insert(e, Velocity { dx: 3.0, dy: 4.0 });
+        world.insert(e, Position { x: 1.0, y: 2.0 });
+        world.insert(e, LargeComponent { data: [42u8; 64] });
+
+        // Verify all components readable without corruption
+        let pos = world.get::<Position>(e).unwrap();
+        assert_eq!(*pos, Position { x: 1.0, y: 2.0 });
+
+        let vel = world.get::<Velocity>(e).unwrap();
+        assert_eq!(*vel, Velocity { dx: 3.0, dy: 4.0 });
+
+        let large = world.get::<LargeComponent>(e).unwrap();
+        assert_eq!(large.data[0], 42);
+        assert_eq!(large.data[63], 42);
+    }
 }
