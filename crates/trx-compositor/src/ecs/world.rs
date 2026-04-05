@@ -119,9 +119,27 @@ impl World {
         // sorted version to look up column indices in the new archetype.
         let target_arch_id = self.archetypes.get_or_create(new_comp_ids, &new_sizes);
 
-        // Move entity data from old archetype to new
+        // Move entity data from old archetype to new.
+        // We must save existing component data before removing from the old
+        // archetype, so it can be copied into the new one.
+        let mut saved_data: Vec<(ComponentId, Vec<u8>)> = Vec::new();
         if let Some((old_arch_id, old_row)) = current_loc {
             let old_arch = self.archetypes.get_mut(old_arch_id).unwrap();
+            // Save existing component data before removal
+            for (i, &cid) in old_arch.component_ids.clone().iter().enumerate() {
+                let col = &old_arch.columns[i];
+                let item_size = col.item_size;
+                let mut buf = alloc::vec![0u8; item_size];
+                // SAFETY: old_row is in bounds, column stores valid data
+                unsafe {
+                    core::ptr::copy_nonoverlapping(
+                        col.get_raw(old_row),
+                        buf.as_mut_ptr(),
+                        item_size,
+                    );
+                }
+                saved_data.push((cid, buf));
+            }
             // Remove from old archetype (swap-remove)
             old_arch.entities.swap_remove(old_row);
             for col in &mut old_arch.columns {
@@ -142,7 +160,7 @@ impl World {
         // Push the new component data into the correct column
         let col_idx = new_arch.column_index(comp_id).unwrap();
 
-        // Push zero-initialized data for all columns, then overwrite the target
+        // Push zero-initialized data for all columns, then overwrite
         for col in &mut new_arch.columns {
             let zeros = alloc::vec![0u8; col.item_size];
             // SAFETY: zeros is a valid byte buffer of the correct size
@@ -151,7 +169,18 @@ impl World {
             }
         }
 
-        // Overwrite the target column with the actual component data
+        // Copy saved component data from old archetype into new archetype
+        for (cid, data) in &saved_data {
+            if let Some(new_col_idx) = new_arch.column_index(*cid) {
+                // SAFETY: new_row is valid, data length matches column item_size
+                unsafe {
+                    let dst = new_arch.columns[new_col_idx].get_raw_mut(new_row);
+                    core::ptr::copy_nonoverlapping(data.as_ptr(), dst, data.len());
+                }
+            }
+        }
+
+        // Overwrite the target column with the actual new component data
         // SAFETY: new_row is valid (we just pushed), component is a valid T
         unsafe {
             let dst = new_arch.columns[col_idx].get_raw_mut(new_row);
