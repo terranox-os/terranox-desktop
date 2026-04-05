@@ -12,4 +12,9 @@ pub mod ecs;
 
 // Re-exports
 pub use ecs::entity::Entity;
+pub use ecs::event::{EventReader, Events};
+pub use ecs::hierarchy::{Children, Parent};
+pub use ecs::plugin::App;
+pub use ecs::resource::Resource;
+pub use ecs::system::into_system;
 pub use ecs::world::World;

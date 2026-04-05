@@ -3,6 +3,7 @@ use alloc::vec::Vec;
 use crate::ecs::archetype::{ArchetypeId, Archetypes};
 use crate::ecs::component::{Component, ComponentId, ComponentRegistry};
 use crate::ecs::entity::{Entity, EntityAllocator};
+use crate::ecs::resource::{Resource, Resources};
 
 /// The ECS World: owns all entities, components, and archetypes.
 pub struct World {
@@ -11,6 +12,8 @@ pub struct World {
     pub(crate) archetypes: Archetypes,
     /// Maps entity id to (archetype_id, row index within archetype).
     pub(crate) entity_locations: Vec<Option<(ArchetypeId, usize)>>,
+    /// Singleton resource storage.
+    pub(crate) resources: Resources,
     /// Current world tick (incremented each frame).
     pub(crate) current_tick: u32,
 }
@@ -28,6 +31,7 @@ impl World {
             components: ComponentRegistry::new(),
             archetypes: Archetypes::new(),
             entity_locations: Vec::new(),
+            resources: Resources::new(),
             current_tick: 0,
         }
     }
@@ -224,6 +228,21 @@ impl World {
     /// Check if entity is alive.
     pub fn is_alive(&self, entity: Entity) -> bool {
         self.entities.is_alive(entity)
+    }
+
+    /// Insert a singleton resource into the world.
+    pub fn insert_resource<R: Resource>(&mut self, resource: R) {
+        self.resources.insert(resource);
+    }
+
+    /// Get a shared reference to a resource.
+    pub fn get_resource<R: Resource>(&self) -> Option<&R> {
+        self.resources.get::<R>()
+    }
+
+    /// Get a mutable reference to a resource.
+    pub fn get_resource_mut<R: Resource>(&mut self) -> Option<&mut R> {
+        self.resources.get_mut::<R>()
     }
 
     /// Increment the world tick (call once per frame).
