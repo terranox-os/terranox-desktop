@@ -111,6 +111,10 @@ impl Archetypes {
         self.archetypes.iter()
     }
 
+    pub fn iter_mut(&mut self) -> impl Iterator<Item = &mut Archetype> {
+        self.archetypes.iter_mut()
+    }
+
     pub fn count(&self) -> usize {
         self.archetypes.len()
     }
