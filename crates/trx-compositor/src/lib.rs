@@ -14,6 +14,7 @@ pub mod components;
 pub mod platform;
 pub mod render;
 pub mod resources;
+pub mod scene;
 pub mod systems;
 
 // ECS re-exports
