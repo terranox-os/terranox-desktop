@@ -93,6 +93,10 @@ impl ComponentColumn {
         self.len == 0
     }
 
+    pub fn item_size(&self) -> usize {
+        self.item_size
+    }
+
     pub fn get_change_tick(&self, index: usize) -> u32 {
         self.change_ticks[index]
     }
