@@ -1,0 +1,101 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* TerranoxOS Sentinel Variant Theme — GTK4
+ *
+ * Same structure as Obsidian Dark, accent #ef4444 crimson.
+ * Used for Terranox Sentinel security/pentesting profile.
+ *
+ * Palette:
+ *   Background:  #0a0b14 (same deep obsidian)
+ *   Surface:     #1a0f0f (dark crimson surface)
+ *   Border:      #2d1515 (crimson border)
+ *   Accent:      #ef4444 (crimson — Sentinel primary)
+ *   Accent hover:#f87171 (lighter crimson)
+ */
+
+window {
+    background-color: #0a0b14;
+    color: #e0e0e8;
+}
+
+headerbar {
+    background-color: #1a0f0f;
+    border-bottom: 1px solid #2d1515;
+    color: #e0e0e8;
+    min-height: 36px;
+}
+
+button {
+    background-color: #1e1010;
+    color: #e0e0e8;
+    border: 1px solid #2d1515;
+    border-radius: 8px;
+    padding: 6px 16px;
+}
+
+button:hover {
+    background-color: #2d1515;
+    border-color: #ef4444;
+}
+
+button:active,
+button.suggested-action {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+entry {
+    background-color: #1a0f0f;
+    color: #e0e0e8;
+    border: 1px solid #2d1515;
+    border-radius: 8px;
+    caret-color: #ef4444;
+}
+
+entry:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+/* Sentinel branding */
+.sentinel-mode-label {
+    color: #ef4444;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.sentinel-armed {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+@keyframes armed-pulse {
+    0%, 100% { opacity: 1.0; }
+    50% { opacity: 0.4; }
+}
+
+.sentinel-armed-indicator {
+    color: #ef4444;
+    animation: armed-pulse 2s ease-in-out infinite;
+}
+
+.sentinel-badge {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+progressbar progress {
+    background-color: #ef4444;
+}
+
+switch:checked {
+    background-color: #ef4444;
+}
+
+scrollbar slider:hover {
+    background-color: #ef4444;
+}

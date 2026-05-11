@@ -1,0 +1,209 @@
+/* SPDX-License-Identifier: Apache-2.0 */
+/* TerranoxOS Obsidian Dark Theme — GTK4
+ *
+ * Palette:
+ *   Background:  #0a0b14 (deep obsidian)
+ *   Surface:     #12131f (elevated surfaces)
+ *   Border:      #1e2030 (subtle borders)
+ *   Text:        #e0e0e8 (primary text)
+ *   Text dim:    #8888a0 (secondary text)
+ *   Accent:      #8b5cf6 (violet — primary accent)
+ *   Accent hover:#a78bfa (lighter violet)
+ *   Success:     #22c55e (green)
+ *   Warning:     #eab308 (amber)
+ *   Error:       #ef4444 (red)
+ */
+
+/* ── Window ──────────────────────────────────────── */
+
+window {
+    background-color: #0a0b14;
+    color: #e0e0e8;
+}
+
+headerbar {
+    background-color: #12131f;
+    border-bottom: 1px solid #1e2030;
+    color: #e0e0e8;
+    min-height: 36px;
+}
+
+headerbar title {
+    color: #e0e0e8;
+    font-weight: 600;
+}
+
+/* ── Buttons ─────────────────────────────────────── */
+
+button {
+    background-color: #1e2030;
+    color: #e0e0e8;
+    border: 1px solid #2a2c40;
+    border-radius: 8px;
+    padding: 6px 16px;
+    transition: all 200ms ease;
+}
+
+button:hover {
+    background-color: #2a2c40;
+    border-color: #8b5cf6;
+}
+
+button:active {
+    background-color: #8b5cf6;
+    color: #ffffff;
+}
+
+button.suggested-action {
+    background-color: #8b5cf6;
+    color: #ffffff;
+    border-color: #8b5cf6;
+}
+
+button.suggested-action:hover {
+    background-color: #a78bfa;
+}
+
+button.destructive-action {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+/* ── Entry / Text Input ──────────────────────────── */
+
+entry {
+    background-color: #12131f;
+    color: #e0e0e8;
+    border: 1px solid #2a2c40;
+    border-radius: 8px;
+    padding: 8px 12px;
+    caret-color: #8b5cf6;
+}
+
+entry:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3);
+}
+
+/* ── Lists ───────────────────────────────────────── */
+
+listview,
+list {
+    background-color: #0a0b14;
+}
+
+listview > row,
+list > row {
+    background-color: transparent;
+    color: #e0e0e8;
+    padding: 8px 16px;
+    border-bottom: 1px solid #1e2030;
+}
+
+listview > row:hover,
+list > row:hover {
+    background-color: #12131f;
+}
+
+listview > row:selected,
+list > row:selected {
+    background-color: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+}
+
+/* ── Scrollbar ───────────────────────────────────── */
+
+scrollbar slider {
+    background-color: #2a2c40;
+    border-radius: 999px;
+    min-width: 6px;
+    min-height: 6px;
+}
+
+scrollbar slider:hover {
+    background-color: #8b5cf6;
+}
+
+/* ── Labels ──────────────────────────────────────── */
+
+label {
+    color: #e0e0e8;
+}
+
+label.dim-label {
+    color: #8888a0;
+}
+
+label.accent {
+    color: #8b5cf6;
+}
+
+/* ── Switch / Toggle ─────────────────────────────── */
+
+switch {
+    background-color: #2a2c40;
+    border-radius: 999px;
+}
+
+switch:checked {
+    background-color: #8b5cf6;
+}
+
+/* ── Progress Bar ────────────────────────────────── */
+
+progressbar trough {
+    background-color: #1e2030;
+    border-radius: 4px;
+    min-height: 8px;
+}
+
+progressbar progress {
+    background-color: #8b5cf6;
+    border-radius: 4px;
+}
+
+/* ── Tooltip ─────────────────────────────────────── */
+
+tooltip {
+    background-color: #12131f;
+    color: #e0e0e8;
+    border: 1px solid #2a2c40;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+/* ── Sentinel-specific classes ───────────────────── */
+
+.sentinel-secure {
+    color: #22c55e;
+}
+
+.sentinel-warning {
+    color: #eab308;
+}
+
+.sentinel-critical {
+    color: #ef4444;
+}
+
+.sentinel-badge {
+    background-color: rgba(139, 92, 246, 0.2);
+    color: #8b5cf6;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cap-counter {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e0e0e8;
+}
+
+.cap-label {
+    font-size: 11px;
+    color: #8888a0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

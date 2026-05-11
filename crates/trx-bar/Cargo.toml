@@ -1,0 +1,22 @@
+# SPDX-License-Identifier: GPL-2.0-only
+[package]
+name = "trx-bar"
+version = "0.3.0"
+edition = "2021"
+license = "GPL-2.0-only"
+description = "TerranoxOS status bar — Wayland client"
+authors = ["Antonette Caldwell <zenvanexus@gmail.com>"]
+
+[[bin]]
+name = "trx-bar"
+path = "src/main.rs"
+
+[dependencies]
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client"] }
+rustix = { version = "1", features = ["mm", "fs", "time", "thread", "event"] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true

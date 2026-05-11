@@ -1,0 +1,28 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: terranox-desktop
+Upstream-Contact: Antonette Caldwell <zenvanexus@gmail.com>
+Source: https://github.com/terranox-os/terranox-desktop
+
+Files: crates/trx-bar/* crates/trx-bar/**/*
+Copyright: 2026 Antonette Caldwell
+License: GPL-2.0-only
+
+Files: crates/trx-dock/* crates/trx-dock/**/* crates/trx-greeter/* crates/trx-greeter/**/* crates/trx-launcher/* crates/trx-launcher/**/* crates/trx-sentinel-dashboard/* crates/trx-sentinel-dashboard/**/*
+Copyright: 2026 Antonette Caldwell
+License: GPL-2.0-only
+
+Files: crates/trx-sentinel/* crates/trx-sentinel/**/*
+Copyright: 2026 Antonette Caldwell
+License: Apache-2.0
+
+Files: theme/* theme/**/*
+Copyright: 2026 Antonette Caldwell
+License: Apache-2.0
+
+Files: README.md CONTRIBUTING.md
+Copyright: 2026 Antonette Caldwell
+License: CC-BY-4.0
+
+Files: Cargo.toml .gitignore .reuse/dep5
+Copyright: 2026 Antonette Caldwell
+License: Apache-2.0

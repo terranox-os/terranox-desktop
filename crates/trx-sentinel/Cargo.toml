@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+[package]
+name = "trx-sentinel"
+version = "0.1.0"
+edition = "2021"
+authors = ["Antonette Caldwell <zenvanexus@gmail.com>"]
+license = "Apache-2.0"
+description = "Sentinel security dashboard — mock daemon + GTK4 UI"
+
+[[bin]]
+name = "sentinel-mock"
+path = "src/mock_server.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+chrono = { version = "0.4", features = ["serde"] }

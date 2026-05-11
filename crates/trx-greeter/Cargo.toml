@@ -1,0 +1,23 @@
+# SPDX-License-Identifier: GPL-2.0-only
+[package]
+name = "trx-greeter"
+version = "0.4.0"
+edition = "2021"
+license = "GPL-2.0-only"
+description = "TerranoxOS login greeter — exclusive layer-shell authentication screen"
+authors = ["Antonette Caldwell <zenvanexus@gmail.com>"]
+
+[[bin]]
+name = "trx-greeter"
+path = "src/main.rs"
+
+[dependencies]
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client"] }
+wayland-protocols-wlr = { version = "0.3", features = ["client"] }
+rustix = { version = "1", features = ["mm", "fs", "time"] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true
