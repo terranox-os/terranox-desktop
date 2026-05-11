@@ -159,7 +159,7 @@ impl App {
 
 fn draw_char(pixels: &mut [u32], stride: usize, x: usize, y: usize, ch: char, color: u32) {
     // Simplified: just draw a filled rectangle for non-space chars
-    // Full bitmap font from trx-bar-rs/font.rs would be imported in production
+    // Full bitmap font from trx-bar font.rs would be imported in production
     if ch == ' ' { return; }
     let c = ch as u8;
     // Draw an 8x16 block with the character's visual weight
