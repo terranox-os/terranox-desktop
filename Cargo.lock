@@ -118,6 +118,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "genesis-abi"
+version = "0.1.0"
+source = "git+https://github.com/terranox-os/kernel-libs.git?tag=genesis-abi-v0.1.0#827b468515b4a2f1259b1bd8fc86de7dd18489d5"
+
+[[package]]
 name = "iana-time-zone"
 version = "0.1.65"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -441,6 +446,13 @@ dependencies = [
  "rustix",
  "wayland-client",
  "wayland-protocols",
+]
+
+[[package]]
+name = "trx-compositor"
+version = "0.1.0"
+dependencies = [
+ "genesis-abi",
 ]
 
 [[package]]
