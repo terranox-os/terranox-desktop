@@ -1,0 +1,10 @@
+[package]
+name = "trx-compositor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "TerranoxOS ECS-based compositor runtime — custom Entity Component System with archetype storage, change detection, and Flexbox layout"
+
+[dependencies]
+genesis-abi = { path = "../genesis-abi" }
