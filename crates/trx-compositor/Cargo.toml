@@ -1,10 +1,11 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
 [package]
 name = "trx-compositor"
-version.workspace = true
-edition.workspace = true
-license.workspace = true
-repository.workspace = true
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
 description = "TerranoxOS ECS-based compositor runtime — custom Entity Component System with archetype storage, change detection, and Flexbox layout"
+authors = ["Antonette Caldwell <zenvanexus@gmail.com>"]
 
 [dependencies]
-genesis-abi = { path = "../genesis-abi" }
+genesis-abi = { git = "https://github.com/terranox-os/kernel-libs.git", tag = "genesis-abi-v0.1.0" }
